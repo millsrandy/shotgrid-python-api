@@ -4,6 +4,34 @@ ShotGrid Python API Changelog
 
 Here you can see the full list of changes between each Python API release.
 
+v3.4.0 (2023 Sep 22)
+====================
+- Started support for Python 3.10 for CI.
+- Add documentation for PublishedFiles preset filters.
+- Upgrade httplib2 to 0.22.0.
+- Update licensing.
+- Updates Autodesk URLs.
+- Fix flaky tests.
+
+v3.3.6 (2023 Aug 29)
+====================
+- Update docs for entity fields.
+- Fix typo.
+- Fix incorrect hint.
+- Reformat code examples to prevent text overflow.
+- Bump certifi from 2020.06.20 to 2022.12.7 in /shotgun_api3/lib.
+- Skip SG-MIM entities.
+- Replace shotgunsoftware references.
+- Deprecation of Python 2.
+- Security upgrade certifi to latest version 2023.07.22.
+
+v3.3.5 (2023 Jan 5)
+====================
+- Add "Setting Up Your Environment with the Python API" to Python Docs (python-api docs).
+- [Python API Documentation] Update Python version requirements.
+- Rename Shotgun to Shotgrid in every about text like tk-multi-demo git repository.
+- Rename Shotgun servers to ShotGrid servers in the documentation.
+
 v3.3.4 (2022 June 9)
 ====================
 - Adds Retries on 503 Errors when uploading to S3.
@@ -175,7 +203,7 @@ v3.0.25 (2016 Jan 12)
 =====================
 
 - Add handling for Python versions incompatible with SHA-2 (see `this blog post 
-  <http://blog.shotgunsoftware.com/2016/01/important-ssl-certificate-renewal-and.html>`_).
+  <https://www.shotgridsoftware.com/blog/important-ssl-certificate-renewal-and-sha-2/>`_).
 - Add ``SHOTGUN_FORCE_CERTIFICATE_VALIDATION`` environment variable to prevent disabling certficate 
   validation when SHA-2 validation is not available.
 - Add SSL info to user-agent header.

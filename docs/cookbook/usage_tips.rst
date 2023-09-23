@@ -2,7 +2,7 @@
 API Usage Tips
 ##############
 
-Below is a list of helpful tips when using the Shotgun API. We have tried to make the API very 
+Below is a list of helpful tips when using the ShotGrid API. We have tried to make the API very 
 simple to use with predictable results while remaining a powerful tool to integrate with your 
 pipeline. However, there's always a couple of things that crop up that our users might not be 
 aware of. Those are the types of things you'll find below. We'll be adding to this document over 
@@ -28,16 +28,18 @@ Don't::
 ***************
 Multi-threading
 ***************
-The Shotgun API is not thread-safe. If you want to do threading we strongly suggest that you use 
+The ShotGrid API is not thread-safe. If you want to do threading we strongly suggest that you use 
 one connection object per thread and not share the connection.
+
+.. _entity-fields:
 
 *************
 Entity Fields
 *************
 
-When you do a :meth:`~shotgun_api3.Shotgun.find` call that returns a field of type entity or 
-multi-entity (for example the 'assets' column on Shot), the entities are returned in a standard 
-dictionary::
+When you do a :meth:`~shotgun_api3.Shotgun.find` or a :meth:`~shotgun_api3.Shotgun.create` call
+that returns a field of type **entity** or **multi-entity** (for example the 'Assets' column on Shot),
+the entities are returned in a standard dictionary::
 
     {'type': 'Asset', 'name': 'redBall', 'id': 1}
 
@@ -83,7 +85,7 @@ Then when you're writing scripts, you don't need to worry about remembering whic
     import shotgun_api3
     import studio_globals
 
-    sg = Shotgun('https://mystudio.shotgunstudio.com', 'script_name', '0123456789abcdef0123456789abcdef0123456')
+    sg = Shotgun('https://my-site.shotgrid.autodesk.com', 'script_name', '0123456789abcdef0123456789abcdef0123456')
     result = sg.find(studio_globals.ENTITY_WIDGET,
                      filters=[['sg_status_list', 'is', 'ip']],
                      fields=['code', 'sg_shot'])
@@ -103,7 +105,7 @@ example of a field that resides on the connection entity between Playlists and V
 connection entity is appropriately called `PlaylistVersionConnection`. Because any Version can 
 exist in multiple Playlists, the sort order isn't specific to the Version, it's specific to 
 each _instance_ of the Version in a Playlist. These instances are tracked using connection 
-entities in Shtogun and are accessible just like any other entity type in Shotgun.
+entities in Shtogun and are accessible just like any other entity type in ShotGrid.
 
 To find information about your Versions in the Playlist "Director Review" (let's say it has an 
 ``id`` of 4). We'd run a query like so::
@@ -174,7 +176,7 @@ entity. The field we are interested on the Version is ``code``. Put those togeth
 riend the dot and we have ``version.Version.code``.
 
 *******************************************
-Shotgun UI fields not available via the API
+ShotGrid UI fields not available via the API
 *******************************************
 
 Summary type fields like Query Fields and Pipeline Step summary fields are currently only available 
@@ -242,14 +244,14 @@ To see the logging output in stdout, define a streamhandler in your script::
     import shotgun_api3 as shotgun
     logging.basicConfig(level=logging.DEBUG)
 
-To write logging output from the shotgun API to a file, define a file handler in your script::
+To write logging output from the ShotGrid API to a file, define a file handler in your script::
 
     import logging
     import shotgun_api3 as shotgun
     logging.basicConfig(level=logging.DEBUG, filename='/path/to/your/log')
 
 To suppress the logging output from the API in a script which uses logging, set the level of the 
-Shotgun logger to a higher level::
+ShotGrid logger to a higher level::
 
     import logging
     import shotgun_api3 as shotgun
@@ -260,10 +262,12 @@ Shotgun logger to a higher level::
 Optimizations
 *************
 
+.. _combining-related-queries: 
+
 Combining Related Queries
 =========================
 Reducing round-trips for data via the API can significantly improve the speed of your application.
-Much like "Bubble Fields" / "Field Hopping" in the UI, we can poll Shotgun for data on the fields
+Much like "Bubble Fields" / "Field Hopping" in the UI, we can poll ShotGrid for data on the fields
 of entities linked to our main query, both as a part of the query parameters as well as in the
 data returned.
 
@@ -285,7 +289,7 @@ With "field hopping" you can combine these queries into::
     sg_shots = sg.find("Shot", [['project.Project.name', 'is', project_name]], ['code'])
 
 As you can see above, the syntax is to use "``.``" dot notation, joining field names to entity
-types in a chain. In this example we start with the field ``project`` on the Shot entity, then
+types in a chain. In this example we start with the field ``project`` on the ``Shot`` entity, then
 specify we're looking for the "name" field on the Project entity by specifying ``Project.name``.
 
 Now that we've demonstrated querying using dot notation, let's take a look at returning linked data
@@ -296,7 +300,10 @@ by adding the status of each Sequence entity associated with each Shot in our pr
     sg_shots = sg.find("Shot", [['project.Project.name', 'is', project_name]],
                        ['code', 'sg_sequence.Sequence.sg_status_list'])
 
+The previous examples use the :meth:`~shotgun_api3.Shotgun.find` method. However, it's also applicable
+to the :meth:`~shotgun_api3.Shotgun.create` method.
+
 .. note::
-    Due to performance concerns with deep linking, we only support using dot syntax chains for
+    Due to performance concerns with deep linking, we only support using dot notation chains for
     single-entity relationships. This means that if you try to pull data through a multi-entity
     field you will not get the desired result.

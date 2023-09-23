@@ -27,11 +27,11 @@ if (sys.version_info[0] <= 2) or (sys.version_info[0] == 2 and sys.version_info[
 
 setup(
     name='shotgun_api3',
-    version='3.3.4',
-    description='Shotgun Python API ',
+    version='3.4.0',
+    description='ShotGrid Python API ',
     long_description=readme,
-    author='Shotgun Software',
-    author_email='https://developer.shotgridsoftware.com',
+    author='ShotGrid Software',
+    author_email='https://www.autodesk.com/support/contact-support',
     url='https://github.com/shotgunsoftware/python-api',
     license=license,
     packages=find_packages(exclude=('tests',)),

@@ -6,18 +6,14 @@ Installation
 Minimum Requirements
 ********************
 
-- Shotgun server v5.4.14 or higher for API v3.0.16+.
-- Shotgun server v2.4.12 or higher for API v3.0.8.
-- Shotgun server v1.8 or higher for API v3.0.7.
-- Python 2.7 or Python 3.7
+- Python 3.7
 
 .. note::
-    Some features of the API are only supported by more recent versions of the Shotgun server.
+    Some features of the API are only supported by more recent versions of the ShotGrid server.
     These features are added to the Python API in a backwards compatible way so that existing
     scripts will continue to function as expected. Accessing a method that is not supported for
-    your version of Shotgun will raise an appropriate exception. In general, we attempt to
+    your version of ShotGrid will raise an appropriate exception. In general, we attempt to
     document these where possible.
-
 
 ******************************
 Installing into ``PYTHONPATH``
@@ -28,6 +24,9 @@ You'll need to save it somewhere your local Python installation can find it.
 
 .. seealso:: For more information on ``PYTHONPATH`` and using modules in Python, see
     http://docs.python.org/tutorial/modules.html
+
+.. note::
+    :ref:`Visit the introduction to the Python API <pythonoverviewvideo>` to see an overview video of Setting Up Your Environment with the Python API.
 
 ***********************
 Installing with ``pip``

@@ -1,10 +1,10 @@
-[![VFX Platform](https://img.shields.io/badge/vfxplatform-2020-blue.svg)](http://www.vfxplatform.com/)
-[![Python 2.7 3.7](https://img.shields.io/badge/python-2.7%20%7C%203.7-blue.svg)](https://www.python.org/)
+[![VFX Platform](https://img.shields.io/badge/vfxplatform-2023%202022%202021%202020-blue.svg)](http://www.vfxplatform.com/)
+[![Python 3.7 3.9 3.10](https://img.shields.io/badge/python-3.7%20%7C%203.9%20%7C%203.10-blue.svg)](https://www.python.org/)
 [![Reference Documentation](http://img.shields.io/badge/doc-reference-blue.svg)](http://developer.shotgridsoftware.com/python-api)
 [![Build Status](https://dev.azure.com/shotgun-ecosystem/Python%20API/_apis/build/status/shotgunsoftware.python-api?branchName=master)](https://dev.azure.com/shotgun-ecosystem/Python%20API/_build/latest?definitionId=108&branchName=master)
 [![Coverage Status](https://coveralls.io/repos/github/shotgunsoftware/python-api/badge.svg?branch=master)](https://coveralls.io/github/shotgunsoftware/python-api?branch=master)
 
-# Shotgun Python API
+# ShotGrid Python API
 
 ShotGrid provides a simple Python-based API for accessing ShotGrid and integrating with other tools. This is the official API that is maintained by ShotGrid Software (https://knowledge.autodesk.com/contact-support)
 
@@ -12,8 +12,7 @@ The latest version can always be found at http://github.com/shotgunsoftware/pyth
 
 ## Minimum Requirements
 
-* ShotGrid server v2.4.12+.
-* Python v2.7 or v3.7
+* Python v3.7
 
 ## Documentation
 Tutorials and detailed documentation about the Python API are available at http://developer.shotgridsoftware.com/python-api).
@@ -37,63 +36,6 @@ The API comes with a copy of the `httplib2` inside the `shotgun_api3/lib` folder
     python update_httplib2.py vX.Y.Z
 
 where `vX.Y.Z` is a release found on `httplib2`'s [release page](https://github.com/httplib2/httplib2/releases).
-
-## Maintaining Python 2 and 3 compatibility
-
-python-api should remain compatible with both Python 2, and 3.  To make this easier, we use [six](https://six.readthedocs.io/).  When adding code that works with types that have changed between Python 2 and 3, notably strings and files, it's advisable to use the `six` types for casting and comparisons. Be sure to follow Python 2 and 3 compatible conventions in code, especially when raising or capturing exceptions and printing. While we don't use `future`, [this page](https://python-future.org/compatible_idioms.html) contains a fairly comprehensive list of Python 2/3 compatibility sticking points to look out for.
-
-Additionally, the [python-modernize](https://python-modernize.readthedocs.io/en/latest/) tool can be helpful when updating Python 2 code for Python 3 compatibility.
-
-### Examples:
-
-#### Comparisons against changed types:
-
-Python 2:
-
-```
-if isinstance(my_variable, str):
-```
-
-Python 2/3:
-
-```
-if isinstance(my_variable, six.string_types):
-```
-
-#### Catching exceptions
-
-Python 2:
-
-```
-except SomeExceptionType, e:
-    print "I like to swallow exceptions!"
-```
-
-Python 2/3:
-
-```
-from __future__ import print_function
-except SomeExceptionType as e:
-    print("I like to swallow exceptions!")
-```
-
-#### Print statements
-
-Python 2:
-
-```
-print "My spoon is too big!"
-```
-
-Python 2/3:
-
-```
-from __future__ import print_function
-print("My spoon is too big!")
-```
-
-
-Additionally, when testing locally, tests should be run for both python 2 and python 3 to ensure changes won't break cross-compatibility.
 
 ## Tests
 
@@ -133,7 +75,7 @@ Integration and unit tests are provided.
     - Add more detailed information regarding the changes in this release. This is a great place to add examples, and reasons for the change!
 
 ### Letting the world know
-Post a message in the [Pipeline Community channel](https://community.shotgunsoftware.com/c/pipeline) and send an email to [shotgun-dev](https://groups.google.com/a/shotgunsoftware.com/forum/#!forum/shotgun-dev) with a link to the community post.
+Post a message in the [Pipeline Community channel](https://community.shotgridsoftware.com/c/pipeline).
 
 ### Prepare for the Next Dev Cycle
 1) Update the `__version__` value in `shotgun_api3/shotgun.py` to the next version number with `.dev` appended to it. For example, `v3.0.24.dev`
