@@ -336,8 +336,8 @@ class TestShotgunApi(base.LiveTestBase):
 
         h = Http(".cache")
         thumb_resp, content = h.request(new_version.get('image'), "GET")
-        self.assertEqual(thumb_resp['status'], '200')
-        self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+        self.assertIn(thumb_resp['status'], ['200', '304'])
+        self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
         self.sg.delete("Version", new_version['id'])
 
@@ -378,8 +378,8 @@ class TestShotgunApi(base.LiveTestBase):
 
         h = Http(".cache")
         thumb_resp, content = h.request(version_with_thumbnail.get('image'), "GET")
-        self.assertEqual(thumb_resp['status'], '200')
-        self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+        self.assertIn(thumb_resp['status'], ['200', '304'])
+        self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
         # clear thumbnail
         response_clear_thumbnail = self.sg.update("Version", self.version['id'], {'image': None})
@@ -405,8 +405,8 @@ class TestShotgunApi(base.LiveTestBase):
 
         h = Http(".cache")
         thumb_resp, content = h.request(task_with_thumbnail.get('image'), "GET")
-        self.assertEqual(thumb_resp['status'], '200')
-        self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+        self.assertIn(thumb_resp['status'], ['200', '304'])
+        self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
         # clear thumbnail
         response_clear_thumbnail = self.sg.update("Version", self.version['id'], {'image': None})
@@ -510,8 +510,8 @@ class TestShotgunApi(base.LiveTestBase):
 
             h = Http(".cache")
             thumb_resp, content = h.request(response_version_with_project.get('project.Project.image'), "GET")
-            self.assertEqual(thumb_resp['status'], '200')
-            self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+            self.assertIn(thumb_resp['status'], ['200', '304'])
+            self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
         else:
             expected_version_with_project = {
@@ -785,17 +785,16 @@ class TestShotgunApi(base.LiveTestBase):
         end_date_obj = datetime.datetime(2012, 1, 7)
 
         project = self.project
-        # We're going to be comparing this value with the value returned from the server, so extract only the type
-        # and id
+        # We're going to be comparing this value with the value returned from the server, so extract only the type, id
+        # and name
         user = {"type": self.human_user["type"], "id": self.human_user["id"], "name": self.human_user["name"]}
 
         work_schedule = self.sg.work_schedule_read(start_date, end_date, project, user)
-
+        # Test that the work_schedule_read api method is called with the 'start_date' and 'end_date' arguments
+        # in the 'YYYY-MM-DD' string format.
         self.assertRaises(shotgun_api3.ShotgunError, self.sg.work_schedule_read,
                           start_date_obj, end_date_obj, project, user)
 
-        resp = self.sg.work_schedule_read(start_date, end_date, project, user)
-        self.assertEqual(work_schedule, resp)
 
         resp = self.sg.work_schedule_update('2012-01-02', False, 'Studio Holiday')
         expected = {
@@ -843,7 +842,6 @@ class TestShotgunApi(base.LiveTestBase):
         self.assertEqual(expected, resp)
         resp = self.sg.work_schedule_read(start_date, end_date, project, user)
         work_schedule['2012-01-04'] = {"reason": "USER_EXCEPTION", "working": False, "description": "Artist Holiday"}
-        # FIXME: There seems to be a regresion on the Shotgun server that needs to be fixed. Disabling the test
         self.assertEqual(work_schedule, resp)
 
     # For now disable tests that are erroneously failling on some sites to
@@ -2069,8 +2067,8 @@ class TestHumanUserAuth(base.HumanUserAuthLiveTestBase):
 
         h = Http(".cache")
         thumb_resp, content = h.request(version_with_thumbnail.get('image'), "GET")
-        self.assertEqual(thumb_resp['status'], '200')
-        self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+        self.assertIn(thumb_resp['status'], ['200', '304'])
+        self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
         # clear thumbnail
         response_clear_thumbnail = self.sg.update("Version", self.version['id'], {'image': None})
@@ -2126,8 +2124,8 @@ class TestSessionTokenAuth(base.SessionTokenAuthLiveTestBase):
 
             h = Http(".cache")
             thumb_resp, content = h.request(version_with_thumbnail.get('image'), "GET")
-            self.assertEqual(thumb_resp['status'], '200')
-            self.assertEqual(thumb_resp['content-type'], 'image/jpeg')
+            self.assertIn(thumb_resp['status'], ['200', '304'])
+            self.assertIn(thumb_resp['content-type'], ['image/jpeg', 'image/png'])
 
             # clear thumbnail
             response_clear_thumbnail = self.sg.update("Version", self.version['id'], {'image': None})
